@@ -1,11 +1,12 @@
 package com.lcs.universities;
 
+import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
 
 public interface UniversityAPIservice {
-    @GET("search?country=Spain")
-    Call<List<University>> getUniversities();
+    @GET("/search?country=Spain")
+    Call<List<University>> getAll();
 }

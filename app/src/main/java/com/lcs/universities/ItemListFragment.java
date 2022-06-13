@@ -1,7 +1,5 @@
 package com.lcs.universities;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -76,6 +74,7 @@ public class ItemListFragment extends Fragment {
         binding = FragmentItemListBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
+
     }
 
     @Override
@@ -91,19 +90,19 @@ public class ItemListFragment extends Fragment {
         View itemDetailFragmentContainer = view.findViewById(R.id.item_detail_nav_container);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://universities.hipolabs.com/")
+                .baseUrl("http://universities.hipolabs.com")
                 .addConverterFactory(GsonConverterFactory.create(
                         new GsonBuilder().serializeNulls().create()
                 )).build();
         UniversityAPIservice uniapi = retrofit.create(UniversityAPIservice.class);
-        Call<List<University>> llamada = uniapi.getUniversities();
+        Call<List<University>> llamada = uniapi.getAll();
 
         llamada.enqueue(new Callback<List<University>>() {
             @Override
             public void onResponse(Call<List<University>> call, Response<List<University>> response) {
                 if(response.isSuccessful()){
                     List<University> unilist = response.body();
-                    setupRecyclerView((RecyclerView) recyclerView, itemDetailFragmentContainer, (ArrayList<University>)unilist);
+                    setupRecyclerView((RecyclerView) recyclerView, itemDetailFragmentContainer, (ArrayList<University>) unilist);
                 }
             }
 
@@ -119,7 +118,7 @@ public class ItemListFragment extends Fragment {
             RecyclerView recyclerView,
             View itemDetailFragmentContainer,
             ArrayList<University> unilist) {
-        //recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(
                 unilist, itemDetailFragmentContainer
         ));
@@ -134,7 +133,7 @@ public class ItemListFragment extends Fragment {
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<University> mValues;
+        private final ArrayList<University> mValues;
         private final View mItemDetailFragmentContainer;
 
         SimpleItemRecyclerViewAdapter(ArrayList<University> items,

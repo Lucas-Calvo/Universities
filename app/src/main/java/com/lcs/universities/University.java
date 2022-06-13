@@ -5,8 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class University {
-    @SerializedName("web_pages")
+
     private String name;
+    @SerializedName("web_pages")
     private String url;
     private String imageUrl;
     private String description;
