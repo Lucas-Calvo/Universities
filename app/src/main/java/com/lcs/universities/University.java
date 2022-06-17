@@ -5,36 +5,19 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class University {
-
-    private String name;
     @SerializedName("web_pages")
-    private String url;
-    private String imageUrl;
-    private String description;
+    private List<String> webPages = null;
+    private String name;
+    public List<String> getWebPages() {
+        return webPages;
+    }
+    public void setWebPages(List<String> webPages) {
+        this.webPages = webPages;
+    }
     public String getName() {
         return name;
     }
     public void setName(String name) {
         this.name = name;
     }
-    public String getUrl() {
-        return url;
-    }
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    public String getImageUrl() {
-        return imageUrl;
-    }
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
-
-

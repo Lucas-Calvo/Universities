@@ -28,6 +28,9 @@ public class ItemDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String name="university_name";
+    public static final String url="idurltext";
+
 
     private String mItemName;
     /**
@@ -70,7 +73,7 @@ public class ItemDetailFragment extends Fragment {
         binding = FragmentItemDetailBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
-        mToolbarLayout = rootView.findViewById(R.id.toolbar_layout);
+        //mToolbarLayout = rootView.findViewById(R.id.toolbar_layout);
         mTextView = binding.itemDetail;
 
         // Show the placeholder content as text in a TextView & in the toolbar if available.

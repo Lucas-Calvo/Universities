@@ -1,5 +1,7 @@
 package com.lcs.universities;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -41,30 +43,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ItemListFragment extends Fragment {
 
-    /**
-     * Method to intercept global key events in the
-     * item list fragment to trigger keyboard shortcuts
-     * Currently provides a toast when Ctrl + Z and Ctrl + F
-     * are triggered
-     */
-    ViewCompat.OnUnhandledKeyEventListenerCompat unhandledKeyEventListenerCompat = (v, event) -> {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_Z && event.isCtrlPressed()) {
-            Toast.makeText(
-                    v.getContext(),
-                    "Undo (Ctrl + Z) shortcut triggered",
-                    Toast.LENGTH_LONG
-            ).show();
-            return true;
-        } else if (event.getKeyCode() == KeyEvent.KEYCODE_F && event.isCtrlPressed()) {
-            Toast.makeText(
-                    v.getContext(),
-                    "Find (Ctrl + F) shortcut triggered",
-                    Toast.LENGTH_LONG
-            ).show();
-            return true;
-        }
-        return false;
-    };
 
     private FragmentItemListBinding binding;
 
@@ -80,8 +58,6 @@ public class ItemListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        ViewCompat.addOnUnhandledKeyEventListener(view, unhandledKeyEventListenerCompat);
 
         RecyclerView recyclerView = binding.itemList;
 
@@ -142,6 +118,16 @@ public class ItemListFragment extends Fragment {
             mItemDetailFragmentContainer = itemDetailFragmentContainer;
         }
 
+        private final View.OnClickListener mOnClickListener = new
+                View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Navigation.findNavController(view).navigate(R.id.item_detail_fragment);
+
+                    }
+                };
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -156,62 +142,13 @@ public class ItemListFragment extends Fragment {
             holder.mContentView.setText(mValues.get(position).getName());
 
             holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(itemView -> {
-                PlaceholderContent.PlaceholderItem item =
-                        (PlaceholderContent.PlaceholderItem) itemView.getTag();
-                Bundle arguments = new Bundle();
-                arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.id);
-                if (mItemDetailFragmentContainer != null) {
-                    Navigation.findNavController(mItemDetailFragmentContainer)
-                            .navigate(R.id.fragment_item_detail, arguments);
-                } else {
-                    Navigation.findNavController(itemView).navigate(R.id.show_item_detail, arguments);
-                }
+            holder.itemView.setOnClickListener(itemVew ->{
+                Navigation.findNavController(itemVew).navigate(R.id.item_detail_fragment);
+                Bundle arguments=new Bundle();
+                arguments.putString(ItemDetailFragment.name, mValues.get(position).getName());
+                arguments.putString(ItemDetailFragment.url, mValues.get(position).getWebPages().get(0));
             });
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                /*
-                 * Context click listener to handle Right click events
-                 * from mice and trackpad input to provide a more native
-                 * experience on larger screen devices
-                 */
-                holder.itemView.setOnContextClickListener(v -> {
-                    PlaceholderContent.PlaceholderItem item =
-                            (PlaceholderContent.PlaceholderItem) holder.itemView.getTag();
-                    Toast.makeText(
-                            holder.itemView.getContext(),
-                            "Context click of item " + item.id,
-                            Toast.LENGTH_LONG
-                    ).show();
-                    return true;
-                });
-            }
-            /*holder.itemView.setOnLongClickListener(v -> {
-                // Setting the item id as the clip data so that the drop target is able to
-                // identify the id of the content
-                ClipData.Item clipItem = new ClipData.Item(mValues.get(position).id);
-                ClipData dragData = new ClipData(
-                        ((PlaceholderContent.PlaceholderItem) v.getTag()).content,
-                        new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
-                        clipItem
-                );
 
-                if (Build.VERSION.SDK_INT >= 24) {
-                    v.startDragAndDrop(
-                            dragData,
-                            new View.DragShadowBuilder(v),
-                            null,
-                            0
-                    );
-                } else {
-                    v.startDrag(
-                            dragData,
-                            new View.DragShadowBuilder(v),
-                            null,
-                            0
-                    );
-                }
-                return true;
-            });*/
         }
 
         @Override
