@@ -114,7 +114,7 @@ public class ItemDetailFragment extends Fragment {
                 binding.universitydescription.setText(detail.getDescription());
             }
             //if(bd.getUniversity(detail.getName())==null){
-            //    binding.imagenfondo.setBackgroundResource(R.drawable.defaultuniversity);
+            binding.imagenfondo.setBackgroundResource(R.drawable.defaultuniversity);
             //}else{
             //    Glide.with(getContext())
             //            .load(bd.getUniversity(detail.getName()).getImageUrl())
