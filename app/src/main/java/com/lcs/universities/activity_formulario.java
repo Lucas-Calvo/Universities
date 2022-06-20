@@ -107,12 +107,16 @@ public class activity_formulario extends Fragment {
                 detail.setImageUrl(txtimg.getText().toString());
                 detail.setDescription(txtdescription.getText().toString());
 
-
-                if(detail.getName()==null){
-                    unibd.insertarUniversity(detail);
-                }else{
-                    unibd.actualizarUniversity(detail);
+                try {
+                    if(unibd.getUniversity(detail.getName())==null){
+                        unibd.insertarUniversity(detail);
+                    }else{
+                        unibd.actualizarUniversity(detail);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
+
                 Navigation.findNavController(view).navigate(R.id.item_list_fragment);
             }
         });

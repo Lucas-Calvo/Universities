@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lcs.universities.databinding.ActivityItemDetailBinding;
@@ -38,7 +39,7 @@ public class ItemDetailFragment extends Fragment {
     public static final String URL="url";
 
     private UniversityDetail detail;
-
+    private UniversityBd bd = new UniversityBd(getContext());
 
     private FragmentItemDetailBinding binding;
 
@@ -65,6 +66,9 @@ public class ItemDetailFragment extends Fragment {
 
             detail.setName(name);
             detail.setUrl(getArguments().getString(URL));
+        }else if(bd.getUniversity(detail.getName())!=null){
+            detail.setImageUrl(bd.getUniversity(detail.getName()).getImageUrl());
+            detail.setDescription(bd.getUniversity(detail.getName()).getDescription());
         }
     }
 
@@ -100,12 +104,26 @@ public class ItemDetailFragment extends Fragment {
 
     private void updateContent() {
 
-        UniversityBd bd = new UniversityBd(getContext());
 
-        if (detail != null) {
-            binding.universityName.setText(detail.getName());
-            binding.idurltext.setText(detail.getUrl());
-            binding.imagenfondo.setBackgroundResource(R.drawable.defaultuniversity);
+        try {
+            if (detail != null) {
+                binding.universityName.setText(detail.getName());
+                binding.idurltext.setText(detail.getUrl());
+                binding.universitydescription.setText("");
+            }else if(bd.getUniversity(detail.getName())!=null){
+                binding.universitydescription.setText(detail.getDescription());
+            }
+            //if(bd.getUniversity(detail.getName())==null){
+            //    binding.imagenfondo.setBackgroundResource(R.drawable.defaultuniversity);
+            //}else{
+            //    Glide.with(getContext())
+            //            .load(bd.getUniversity(detail.getName()).getImageUrl())
+            //            .into(binding.imagenfondo);
+            //}
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
+
     }
 }
