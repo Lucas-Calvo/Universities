@@ -22,5 +22,17 @@
             android:name="item_id"
             android:defaultValue=""
             app:argType="string" />
+        <action
+            android:id="@+id/action_item_detail_fragment_to_activity_formulario"
+            app:destination="@id/activity_formulario" />
+    </fragment>
+    <fragment
+        android:id="@+id/activity_formulario"
+        android:name="com.lcs.universities.activity_formulario"
+        android:label="fragment_activity_formulario"
+        tools:layout="@layout/fragment_activity_formulario" >
+        <action
+            android:id="@+id/action_activity_formulario_to_item_list_fragment"
+            app:destination="@id/item_list_fragment" />
     </fragment>
 </navigation>

@@ -4,7 +4,10 @@ import android.content.ClipData;
 import android.os.Bundle;
 import android.view.DragEvent;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lcs.universities.placeholder.PlaceholderContent;
 import com.lcs.universities.databinding.FragmentItemDetailBinding;
 
@@ -27,28 +31,13 @@ public class ItemDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
-    public static final String name="university_name";
-    public static final String url="idurltext";
+    public static final String NAME="name";
+    public static final String URL="url";
 
+    private UniversityDetail detail;
 
-    private String mItemName;
-    /**
-     * The placeholder content this fragment is presenting.
-     */
-    private PlaceholderContent.PlaceholderItem mItem;
-    private CollapsingToolbarLayout mToolbarLayout;
-    private TextView mTextView;
-
-    private final View.OnDragListener dragListener = (v, event) -> {
-        if (event.getAction() == DragEvent.ACTION_DROP) {
-            ClipData.Item clipDataItem = event.getClipData().getItemAt(0);
-            mItem = PlaceholderContent.ITEM_MAP.get(clipDataItem.getText().toString());
-            updateContent();
-        }
-        return true;
-    };
     private FragmentItemDetailBinding binding;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -60,10 +49,29 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UniversityBd unidb = new UniversityBd(getContext());
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            mItem = PlaceholderContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+
+
+        TextView txtdescripcion= getActivity().findViewById(R.id.universitydescription);
+        updateContent();
+
+        String name = getArguments().getString(NAME);
+        if(unidb.getUniversity(name).getName()==null){
+            if(name != null){
+                if(detail == null)
+                    detail=new UniversityDetail();
+
+                detail.setName(name);
+                detail.setUrl(getArguments().getString(URL));
+
+            }
+        }else{
+            detail.setName(name);
+            detail.setUrl(getArguments().getString(URL));
+            txtdescripcion.setText(unidb.getUniversity(name).getDescription().toString());
         }
+
     }
 
     @Override
@@ -73,13 +81,21 @@ public class ItemDetailFragment extends Fragment {
         binding = FragmentItemDetailBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
-        //mToolbarLayout = rootView.findViewById(R.id.toolbar_layout);
-        mTextView = binding.itemDetail;
-
-        // Show the placeholder content as text in a TextView & in the toolbar if available.
         updateContent();
-        rootView.setOnDragListener(dragListener);
+        binding.botonmas.setOnClickListener(v -> {
+            Bundle arguments = new Bundle();
+            arguments.putString(ItemDetailFragment.NAME, detail.getName());
+            Navigation.findNavController(rootView)
+                    .navigate(R.id.activity_formulario, arguments);
+        });
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
     }
 
     @Override
@@ -89,11 +105,9 @@ public class ItemDetailFragment extends Fragment {
     }
 
     private void updateContent() {
-        if (mItem != null) {
-            mTextView.setText(mItem.details);
-            if (mToolbarLayout != null) {
-                mToolbarLayout.setTitle(mItem.content);
-            }
+        if (detail != null) {
+            binding.universityName.setText(detail.getName());
+            binding.idurltext.setText(detail.getUrl());
         }
     }
 }

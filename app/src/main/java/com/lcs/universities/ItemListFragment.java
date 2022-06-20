@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.Navigator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.GsonBuilder;
 import com.lcs.universities.databinding.FragmentItemListBinding;
 import com.lcs.universities.databinding.ItemListContentBinding;
@@ -93,7 +95,7 @@ public class ItemListFragment extends Fragment {
     private void setupRecyclerView(
             RecyclerView recyclerView,
             View itemDetailFragmentContainer,
-            ArrayList<University> unilist) {
+            List<University> unilist) {
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(
                 unilist, itemDetailFragmentContainer
@@ -109,10 +111,10 @@ public class ItemListFragment extends Fragment {
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final ArrayList<University> mValues;
+        private final List<University> mValues;
         private final View mItemDetailFragmentContainer;
 
-        SimpleItemRecyclerViewAdapter(ArrayList<University> items,
+        SimpleItemRecyclerViewAdapter(List<University> items,
                                       View itemDetailFragmentContainer) {
             mValues = items;
             mItemDetailFragmentContainer = itemDetailFragmentContainer;
@@ -122,7 +124,6 @@ public class ItemListFragment extends Fragment {
                 View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         Navigation.findNavController(view).navigate(R.id.item_detail_fragment);
 
                     }
@@ -139,14 +140,19 @@ public class ItemListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mContentView.setText(mValues.get(position).getName());
 
+            String nombreuni = mValues.get(position).getName();
+            holder.mContentView.setText(nombreuni);
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(itemVew ->{
-                Navigation.findNavController(itemVew).navigate(R.id.item_detail_fragment);
                 Bundle arguments=new Bundle();
-                arguments.putString(ItemDetailFragment.name, mValues.get(position).getName());
-                arguments.putString(ItemDetailFragment.url, mValues.get(position).getWebPages().get(0));
+                arguments.putString(ItemDetailFragment.NAME, nombreuni);
+                arguments.putString(ItemDetailFragment.URL, mValues.get(position).getWebPages().get(0));
+                if(mItemDetailFragmentContainer != null){
+                    Navigation.findNavController(mItemDetailFragmentContainer).navigate(R.id.item_detail_fragment, arguments);
+                }else{
+                    Navigation.findNavController(itemVew).navigate(R.id.item_detail_fragment, arguments);
+                }
             });
 
         }

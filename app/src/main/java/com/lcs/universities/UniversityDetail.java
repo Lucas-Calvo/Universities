@@ -11,6 +11,7 @@ public class UniversityDetail {
     private String url;
     private String imageUrl;
     private String description;
+
     public String getName() {
         return name;
     }

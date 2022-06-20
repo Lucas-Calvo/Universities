@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/drawable/recuadro.xml" value="0.2495" />
         <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/layout-sw600dp/fragment_item_list.xml" value="0.141015625" />
+        <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/layout/activity_form.xml" value="0.2" />
         <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/layout/activity_item_detail.xml" value="0.19972826086956522" />
-        <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/layout/fragment_item_detail.xml" value="0.19972826086956522" />
+        <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/layout/fragment_activity_formulario.xml" value="0.264" />
+        <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/layout/fragment_item_detail.xml" value="0.2" />
         <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/layout/fragment_item_list.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/lucas/Documents/SegundoDAM/Recuperacion-Junio/Moviles/Universities/app/src/main/res/layout/item_list_content.xml" value="0.19972826086956522" />
       </map>
