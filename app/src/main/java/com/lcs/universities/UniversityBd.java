@@ -18,7 +18,6 @@ public class UniversityBd extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE University ("+
                 "NAME TEXT PRIMARY KEY , "+
-                "URL TEXT,"+
                 "IMAGE TEXT,"+
                 "DESCRIPTION TEXT);");
     }
@@ -37,7 +36,6 @@ public class UniversityBd extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put("NAME", unidetail.getName());
-        values.put("URL", unidetail.getUrl());
         values.put("IMAGE", unidetail.getImageUrl());
         values.put("DESCRIPTION", unidetail.getDescription());
 
@@ -60,7 +58,6 @@ public class UniversityBd extends SQLiteOpenHelper {
         );
         while(c.getCount()>0 && c.moveToNext()){
             unidetail.setName(c.getString(c.getColumnIndex("NAME")));
-            unidetail.setUrl(c.getString(c.getColumnIndex("URL")));
             unidetail.setImageUrl(c.getString(c.getColumnIndex("IMAGE")));
             unidetail.setDescription(c.getString(c.getColumnIndex("DESCRIPTION")));
         }
@@ -73,5 +70,20 @@ public class UniversityBd extends SQLiteOpenHelper {
             db = getWritableDatabase();
         }
         db.execSQL("DELETE from University where NAME='"+id+"'");
+    }
+
+    public void actualizarUniversity(UniversityDetail unid){
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        if(db==null){
+            db = getWritableDatabase();
+        }
+
+        ContentValues values = new ContentValues();
+
+        values.put("IMAGE", unid.getImageUrl());
+        values.put("DESCRIPTION", unid.getDescription());
+
+        db.update("University", values, "NOMBRE=?", new String[]{unid.getName()});
     }
 }

@@ -100,13 +100,12 @@ public class ItemDetailFragment extends Fragment {
 
     private void updateContent() {
 
+        UniversityBd bd = new UniversityBd(getContext());
 
         if (detail != null) {
-
             binding.universityName.setText(detail.getName());
             binding.idurltext.setText(detail.getUrl());
             binding.imagenfondo.setBackgroundResource(R.drawable.defaultuniversity);
-
         }
     }
 }

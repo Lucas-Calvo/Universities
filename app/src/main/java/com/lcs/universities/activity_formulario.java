@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lcs.universities.databinding.FragmentActivityFormularioBinding;
@@ -30,7 +31,10 @@ public class activity_formulario extends Fragment {
 
     private FragmentActivityFormularioBinding binding;
 
+    private UniversityBd unibd = new UniversityBd(getContext());
+
     private UniversityDetail detail;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -75,6 +79,11 @@ public class activity_formulario extends Fragment {
         binding = FragmentActivityFormularioBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
         updateContent();
+
+        //if(unibd.getUniversity(detail.getName())!=null){
+        //    txtdescription.setText(unibd.getUniversity(detail.getDescription()).toString());
+        //    txtimg.setText(unibd.getUniversity(detail.getImageUrl()).toString());
+        //}
         return rootView;
     }
 
@@ -84,26 +93,26 @@ public class activity_formulario extends Fragment {
 
         Button btnsave = getActivity().findViewById(R.id.btnsave);
         Button btndelete = getActivity().findViewById(R.id.btndelete);
-        TextView txtimg=getActivity().findViewById(R.id.id_txtUrl);
-        TextView txtdescription=getActivity().findViewById(R.id.id_txtDescription);
 
-        UniversityBd unibd = new UniversityBd(getContext());
+        EditText txtimg=getActivity().findViewById(R.id.id_txtUrl);
+        EditText txtdescription=getActivity().findViewById(R.id.id_txtDescription);
 
         String name = getArguments().getString(NAME);
         String url = getArguments().getString(URL);
 
-
         btnsave.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
-                detail.setName(name);
-                detail.setUrl(url);
+                detail.setName(detail.getName());
                 detail.setImageUrl(txtimg.getText().toString());
                 detail.setDescription(txtdescription.getText().toString());
 
-                unibd.insertarUniversity(detail);
 
+                if(detail.getName()==null){
+                    unibd.insertarUniversity(detail);
+                }else{
+                    unibd.actualizarUniversity(detail);
+                }
                 Navigation.findNavController(view).navigate(R.id.item_list_fragment);
             }
         });
