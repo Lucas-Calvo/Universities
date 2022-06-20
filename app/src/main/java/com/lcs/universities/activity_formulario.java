@@ -28,8 +28,7 @@ public class activity_formulario extends Fragment {
     public static final String NAME="name";
     public static final String URL="url";
 
-    private FragmentItemDetailBinding binding;
-    private FragmentActivityFormularioBinding binder;
+    private FragmentActivityFormularioBinding binding;
 
     private UniversityDetail detail;
     // TODO: Rename and change types of parameters
@@ -61,23 +60,21 @@ public class activity_formulario extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         updateContent();
-
         String name = getArguments().getString(NAME);
-        String url = getArguments().getString(URL);
         if(name != null){
             if(detail == null)
                 detail=new UniversityDetail();
             detail.setName(name);
-            detail.setUrl(url);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        binding = FragmentActivityFormularioBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
         updateContent();
-        binder = FragmentActivityFormularioBinding.inflate(inflater, container, false);
-        View rootView = binder.getRoot();
         return rootView;
     }
 
@@ -90,8 +87,6 @@ public class activity_formulario extends Fragment {
         TextView txtimg=getActivity().findViewById(R.id.id_txtUrl);
         TextView txtdescription=getActivity().findViewById(R.id.id_txtDescription);
 
-        UniversityDetail uniintroducir =new UniversityDetail();
-
         UniversityBd unibd = new UniversityBd(getContext());
 
         String name = getArguments().getString(NAME);
@@ -102,12 +97,12 @@ public class activity_formulario extends Fragment {
             @Override
             public void onClick(View view) {
 
-                uniintroducir.setName(name);
-                uniintroducir.setUrl(url);
-                uniintroducir.setImageUrl(txtimg.getText().toString());
-                uniintroducir.setDescription(txtdescription.getText().toString());
+                detail.setName(name);
+                detail.setUrl(url);
+                detail.setImageUrl(txtimg.getText().toString());
+                detail.setDescription(txtdescription.getText().toString());
 
-                unibd.insertarUniversity(uniintroducir);
+                unibd.insertarUniversity(detail);
 
                 Navigation.findNavController(view).navigate(R.id.item_list_fragment);
             }

@@ -12,10 +12,13 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.lcs.universities.databinding.ActivityItemDetailBinding;
+import com.lcs.universities.databinding.FragmentActivityFormularioBinding;
 import com.lcs.universities.placeholder.PlaceholderContent;
 import com.lcs.universities.databinding.FragmentItemDetailBinding;
 
@@ -36,6 +39,7 @@ public class ItemDetailFragment extends Fragment {
 
     private UniversityDetail detail;
 
+
     private FragmentItemDetailBinding binding;
 
 
@@ -49,31 +53,19 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UniversityBd unidb = new UniversityBd(getContext());
 
-
-
-        TextView txtdescripcion= getActivity().findViewById(R.id.universitydescription);
-        TextView txtnombre=getActivity().findViewById(R.id.university_name);
 
         updateContent();
 
         String name = getArguments().getString(NAME);
-        if(unidb.getUniversity(name).getName()==null){
-            if(name != null){
-                if(detail == null)
-                    detail=new UniversityDetail();
 
-                detail.setName(name);
-                detail.setUrl(getArguments().getString(URL));
+        if(name != null){
+            if(detail == null)
+                detail=new UniversityDetail();
 
-            }
-        }else{
             detail.setName(name);
             detail.setUrl(getArguments().getString(URL));
-            txtdescripcion.setText(unidb.getUniversity(name).getDescription());
         }
-
     }
 
     @Override
@@ -107,9 +99,14 @@ public class ItemDetailFragment extends Fragment {
     }
 
     private void updateContent() {
+
+
         if (detail != null) {
+
             binding.universityName.setText(detail.getName());
             binding.idurltext.setText(detail.getUrl());
+            binding.imagenfondo.setBackgroundResource(R.drawable.defaultuniversity);
+
         }
     }
 }

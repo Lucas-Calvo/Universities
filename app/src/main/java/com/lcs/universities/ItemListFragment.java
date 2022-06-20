@@ -124,8 +124,8 @@ public class ItemListFragment extends Fragment {
                 View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Navigation.findNavController(view).navigate(R.id.item_detail_fragment);
 
+                        Navigation.findNavController(view).navigate(R.id.item_detail_fragment);
                     }
                 };
 
