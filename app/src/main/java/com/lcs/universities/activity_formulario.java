@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.lcs.universities.databinding.FragmentActivityFormularioBinding;
 import com.lcs.universities.databinding.FragmentItemDetailBinding;
 
 /**
@@ -27,7 +28,8 @@ public class activity_formulario extends Fragment {
     public static final String NAME="name";
     public static final String URL="url";
 
-    private FragmentItemDetailBinding binder;
+    private FragmentItemDetailBinding binding;
+    private FragmentActivityFormularioBinding binder;
 
     private UniversityDetail detail;
     // TODO: Rename and change types of parameters
@@ -58,7 +60,7 @@ public class activity_formulario extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        updateContent();
 
         String name = getArguments().getString(NAME);
         String url = getArguments().getString(URL);
@@ -73,7 +75,10 @@ public class activity_formulario extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_activity_formulario, container, false);
+        updateContent();
+        binder = FragmentActivityFormularioBinding.inflate(inflater, container, false);
+        View rootView = binder.getRoot();
+        return rootView;
     }
 
     @Override
@@ -116,5 +121,10 @@ public class activity_formulario extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.item_list_fragment);
             }
         });
+    }
+    private void updateContent() {
+        if (detail != null) {
+            binding.universityName.setText(detail.getName());
+        }
     }
 }

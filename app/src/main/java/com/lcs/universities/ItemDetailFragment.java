@@ -54,6 +54,8 @@ public class ItemDetailFragment extends Fragment {
 
 
         TextView txtdescripcion= getActivity().findViewById(R.id.universitydescription);
+        TextView txtnombre=getActivity().findViewById(R.id.university_name);
+
         updateContent();
 
         String name = getArguments().getString(NAME);
@@ -69,7 +71,7 @@ public class ItemDetailFragment extends Fragment {
         }else{
             detail.setName(name);
             detail.setUrl(getArguments().getString(URL));
-            txtdescripcion.setText(unidb.getUniversity(name).getDescription().toString());
+            txtdescripcion.setText(unidb.getUniversity(name).getDescription());
         }
 
     }
